@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -19,6 +20,6 @@ spec:
     spec:
       containers:
       - name: flux-stage
-        image: aashishgoyal246/test-flux:stage
+        image: aashishgoyal246/test-flux:stage-9068952
         ports:
         - containerPort: 80
