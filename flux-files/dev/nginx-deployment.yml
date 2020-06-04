@@ -20,6 +20,6 @@ spec:
     spec:
       containers:
       - name: flux-dev
-        image: aashishgoyal246/test-flux:dev-3235683
+        image: aashishgoyal246/test-flux:dev-5e76e10
         ports:
         - containerPort: 80
