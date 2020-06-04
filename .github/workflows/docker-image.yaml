@@ -1,0 +1,22 @@
+name: Docker
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  build:
+    runs_on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Build Image
+        run: docker build -t aashishgoyal246/test-flux .
+
+      - name: Login to Dockerhub
+        run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+      
+      - name: Push to Dockerhub
+        run: docker push aashishgoyal246/test-flux
