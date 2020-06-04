@@ -1,0 +1,31 @@
+name: Docker
+
+on:
+  push:
+    branches:
+      - dev
+      - stage
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Get Branch Name and Commit Numbers
+        shell: bash
+        id: vars
+        run: |
+          echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+          echo "::set-output name=commit::$(git rev-parse --short HEAD)"
+
+      - name: Build Image
+        run: docker build -t aashishgoyal246/test-flux:${{ steps.vars.outputs.branch }}-${{ steps.vars.outputs.commit }} .
+
+      - name: Login to Dockerhub
+        run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+      
+      - name: Push to Dockerhub
+        run: docker push aashishgoyal246/test-flux:${{ steps.vars.outputs.branch }}-${{ steps.vars.outputs.commit }}
