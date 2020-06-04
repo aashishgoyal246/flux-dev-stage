@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx
+  name: test-flux
   labels:
-    app: nginx
+    app: test-flux
   annotations:
     fluxcd.io/automated: "true"
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: nginx
+      app: test-flux
   template:
     metadata:
       labels:
-        app: nginx
+        app: test-flux
     spec:
       containers:
-      - name: nginx
-        image: nginx
+      - name: test-flux
+        image: aashishgoyal246/test-flux:dev
         ports:
         - containerPort: 80
