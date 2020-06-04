@@ -12,11 +12,16 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
+      - name: Get Branch Name
+        shell: bash
+        id: extract_branch
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+
       - name: Build Image
-        run: docker build -t aashishgoyal246/test-flux .
+        run: docker build -t aashishgoyal246/test-flux:${{ steps.extract_branch.outputs.branch }} .
 
       - name: Login to Dockerhub
         run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
       
       - name: Push to Dockerhub
-        run: docker push aashishgoyal246/test-flux
+        run: docker push aashishgoyal246/test-flux:${{ steps.extract_branch.outputs.branch }}
